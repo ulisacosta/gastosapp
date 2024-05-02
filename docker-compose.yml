@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  mysqldb:
+    image: mysql
+    container_name: mysqldb
+    restart: always
+    env_file: ./.env
+    environment: 
+      - MYSQL_DATABASE=$DB_NAME
+      - MYSQL_ROOT_PASSWORD=$DB_PASSWORD
+    ports:
+      - 3306:3306
+    networks:
+      - galco
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    networks:
+      - galco
+
+  app:
+    restart: always
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysqldb
+    ports:
+      - 3000:3000
+    networks:
+      - galco
+
+networks:
+  galco:
+    driver: bridge    
