@@ -11,30 +11,24 @@ module.exports.login = (req,res) => {
         
         if (!user || !password) {
              res.status(400).json({ error: "Usuario y/o contraseña no proporcionados" });
-             db.end((err) => {
-                if (err) {
-                  console.error("Error al cerrar la conexión:", err.message);
-                } else {
-                  console.log("Conexión cerrada exitosamente.");
-                }
-                
-              })
+            finishDB(db)
             }
             else{
-                const sqlLogin = 'SELECT users.user,user.password FROM users WHERE users.user = ?';
+                const sqlLogin = 'SELECT users.user,users.password FROM users WHERE users.user = ?';
 
                 db.query(sqlLogin,[user],async (errLogin,resultLogin)=>{
                     if(errLogin){
                         console.log(errLogin);
                         return res.status(500).json({error:'Error interno del servidor'});
                     }
-                    else if(resultLogin.length === 0 || !(await bcryptjs.compare(password,resultLogin[0].password))){
+                    else if(resultLogin.length === 0 || (await bcryptjs.compare(password,resultLogin[0].password))){
                         res.status(401).json({error:'Usuario y/o contraseña incorrecto'})
-                        finishDB()
+                        
+                        finishDB(db)
                     }
              
             else{
-                const id = resultLogin[0].id;
+                const id = resultLogin[0].id_user;
                 const token = jwt.sign({id:id},process.env.JWT_SECRET,{expiresIn: process.env.JWT_TIME_EXPIRE})
                 
                 const cookiesOptions = {
@@ -44,7 +38,7 @@ module.exports.login = (req,res) => {
                 };
                 res.cookie('jwt',token,cookiesOptions)
                 res.status(200).json({message:'inicio de sesión exitoso',token});
-                finishDB();
+                finishDB(db);
 
             }
            
@@ -58,12 +52,3 @@ module.exports.login = (req,res) => {
 
 }
 
-
-
-module.exports.register = (req,res) => {
-    const db = dbConnect()
-    const {user,user_name,password} = req.body
-
-    const sqlRegister = 'INSTER INTO users WHERE users.user = ? && users.user_name = ? && users.password = ?';
-
-}
