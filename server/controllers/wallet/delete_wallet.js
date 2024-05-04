@@ -1,5 +1,5 @@
-const dbConnect = require("../config/mysql");
-const {finishDB} = require('../util/finishDB');
+const dbConnect = require("../../config/mysql");
+const {finishDB} = require('../../util/finishDB');
 
 module.exports.delete_wallet = (req,res)=>{
     const db = dbConnect()
