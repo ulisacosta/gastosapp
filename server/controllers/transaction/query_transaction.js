@@ -3,7 +3,7 @@ const { finishDB } = require("../../util/finishDB")
 
 module.exports.query_transaction = (req,res) => {
     const db = dbConnect()
-    const sqlQuery = 'SELECT transaction.*,wallet.* FROM transaction,wallet WHERE transaction.id_wallet = wallet.id_wallet'
+    const sqlQuery = 'SELECT transaction.*,wallet.* FROM transaction,wallet WHERE transaction.id_wallet = wallet.id_wallet ORDER BY transaction.id_wallet ASC'
 
     db.query(sqlQuery,(errQuery,resultQueryTransaction)=>{
         if(errQuery){
