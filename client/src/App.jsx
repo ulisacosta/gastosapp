@@ -6,6 +6,7 @@ import Transactions from "./components/transactions/Transactions";
 import AddIncome from "./components/addIncome/AddIncome";
 import './App.css'
 import AddExpense from "./components/addExpense/AddExpense";
+import DeleteWallet from "./components/deleteWallet/DeleteWallet";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
      <Route path="/add_transaction/1" element={<AddIncome/>}/> 
      <Route path="/add_transaction/2" element={<AddExpense/>}/> 
      <Route path="/add_wallet" element={<Add_wallet/>}/> 
+     <Route path="/delete_wallet" element={<DeleteWallet/>}/> 
      
      </Routes>
     </>
