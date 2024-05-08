@@ -1,7 +1,6 @@
 import React from 'react'
 import RedirectsIndex from '../redirects/RedirectsIndex'
 
-
 export default function Index() {
   return (
     <div className=''>
