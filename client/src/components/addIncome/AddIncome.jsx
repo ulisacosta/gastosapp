@@ -1,9 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RedirectsBack from "../redirects/RedirectsBack";
+import RedirectsIndex from "../redirects/RedirectsIndex";
+import fetchWallet from "../../service/wallet";
 export default function AddIncome() {
   const [amount, setAmount] = useState("");
-  const [id_wallet, setWallet] = useState("");
   const [description, setDescription] = useState("");
+  const [id_wallet, setIdWallet] = useState("");
+  const [wallet, setWallet] = useState([]);
+
+    // Función para cargar las billeteras y actualizar los estados
+    const loadWallets = () => {
+      fetchWallet.fetchDataWallet()
+        .then(data => {
+          setWallet(data.resultQueryWallet);
+          // Configurar el primer valor del select
+          if (data.resultQueryWallet.length > 0) {
+            setIdWallet(data.resultQueryWallet[0].id_wallet);
+          } else {
+            setIdWallet('');
+          }
+        })
+        .catch(error => {
+          console.error("Error al obtener las transacciones:", error);
+        });
+    }
+  
+    useEffect(() => {
+      loadWallets();
+    }, []);
+
   const handleSubmitAddIncome = async (e) => {
     e.preventDefault();
     const inputData = { id_wallet, amount, description };
@@ -18,7 +43,7 @@ export default function AddIncome() {
       });
       const data = await response.json;
       if (response.ok) {
-        setWallet("");
+        loadWallets();
         setAmount("");
         setDescription("");
       } else {
@@ -29,18 +54,20 @@ export default function AddIncome() {
     }
   };
 
-  return (
-    <>
+  if(wallet.length > 0){
+
+    return (
+      <>
       <h1>Agregar ingresos</h1>
       <form onSubmit={handleSubmitAddIncome}>
-        <input
-          type='number'
-          autoComplete='off'
-          name='id_wallet'
-          placeholder='Agregar billetera'
-          value={id_wallet}
-          onChange={(e) => setWallet(e.target.value)}
-        ></input>
+      <select onChange={(e) => setIdWallet(e.target.value)}>
+        
+        {wallet.map((walletName, index) => (
+          <option key={index} value={walletName.id_wallet}>
+            {walletName.wallet_name.toUpperCase()}
+          </option>
+        ))}
+        </select>
         <input
           type='number'
           autoComplete='off'
@@ -65,4 +92,17 @@ export default function AddIncome() {
       ></RedirectsBack>
     </>
   );
+} 
+else {
+  return (
+    <>
+      <h1>Cargar billeteras antes de cargar ingresos</h1>
+      <RedirectsIndex href={'/add_wallet'} text={'Cargar billetera'}></RedirectsIndex>
+      <RedirectsBack
+        href={"/index"}
+        text={"Inicio"}
+      ></RedirectsBack>
+    </>
+  );
+}
 }
