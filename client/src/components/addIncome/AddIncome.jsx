@@ -1,33 +1,37 @@
 import React, { useEffect, useState } from "react";
-import RedirectsBack from "../redirects/RedirectsBack";
-import RedirectsIndex from "../redirects/RedirectsIndex";
+import Button from "../redirects/Button";
+
 import fetchWallet from "../../service/wallet";
+import FormAddTransaction from "../formAddTransaction/FormAddTransaction";
+
+
 export default function AddIncome() {
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [id_wallet, setIdWallet] = useState("");
   const [wallet, setWallet] = useState([]);
 
-    // Función para cargar las billeteras y actualizar los estados
-    const loadWallets = () => {
-      fetchWallet.fetchDataWallet()
-        .then(data => {
-          setWallet(data.resultQueryWallet);
-          // Configurar el primer valor del select
-          if (data.resultQueryWallet.length > 0) {
-            setIdWallet(data.resultQueryWallet[0].id_wallet);
-          } else {
-            setIdWallet('');
-          }
-        })
-        .catch(error => {
-          console.error("Error al obtener las transacciones:", error);
-        });
-    }
-  
-    useEffect(() => {
-      loadWallets();
-    }, []);
+  // Función para cargar las billeteras y actualizar los estados
+  const loadWallets = () => {
+    fetchWallet
+      .fetchDataWallet()
+      .then((data) => {
+        setWallet(data.resultQueryWallet);
+        // Configurar el primer valor del select
+        if (data.resultQueryWallet.length > 0) {
+          setIdWallet(data.resultQueryWallet[0].id_wallet);
+        } else {
+          setIdWallet("");
+        }
+      })
+      .catch((error) => {
+        console.error("Error al obtener las transacciones:", error);
+      });
+  };
+
+  useEffect(() => {
+    loadWallets();
+  }, []);
 
   const handleSubmitAddIncome = async (e) => {
     e.preventDefault();
@@ -54,55 +58,39 @@ export default function AddIncome() {
     }
   };
 
-  if(wallet.length > 0){
-
+  if (wallet.length > 0) {
     return (
       <>
-      <h1>Agregar ingresos</h1>
-      <form onSubmit={handleSubmitAddIncome}>
-      <select onChange={(e) => setIdWallet(e.target.value)}>
-        
-        {wallet.map((walletName, index) => (
-          <option key={index} value={walletName.id_wallet}>
-            {walletName.wallet_name.toUpperCase()}
-          </option>
-        ))}
-        </select>
-        <input
-          type='number'
-          autoComplete='off'
-          name='amount'
-          placeholder='Agregar monto'
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-        ></input>
-        <input
-          type='text'
-          autoComplete='off'
-          name='description'
-          placeholder='Agregar descripción'
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        ></input>
-        <button>Agregar</button>
-      </form>
-      <RedirectsBack
-        href={"/index"}
-        text={"Volver"}
-      ></RedirectsBack>
-    </>
-  );
-} 
-else {
-  return (
-    <>
-      <h1>Cargar billeteras antes de cargar ingresos</h1>
-      <RedirectsIndex href={'/add_wallet'} text={'Cargar billetera'}></RedirectsIndex>
-      <RedirectsBack
-        href={"/index"}
-        text={"Inicio"}
-      ></RedirectsBack>
-    </>
-  );
-}
+        <FormAddTransaction
+          transaction={"INGRESO"}
+          handleSubmitAddIncome={handleSubmitAddIncome}
+          wallet={wallet}
+          amount={amount}
+          setAmount={setAmount}
+          description={description}
+          setDescription={setDescription}
+          idWallet={id_wallet}
+          setIdWallet={setIdWallet}
+        />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className='flex flex-col gap-8'>
+          <h1>Cargar billeteras antes de cargar ingresos</h1>
+          <div className=' flex  gap-4 justify-center'>
+            <Button
+              href={"/add_wallet"}
+              text={"Cargar billetera"}
+            ></Button>
+            <Button
+              href={"/index"}
+              text={"Inicio"}
+            ></Button>
+          </div>
+        </div>
+      </>
+    );
+  }
 }

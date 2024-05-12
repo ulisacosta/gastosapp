@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RedirectsBack from "../redirects/RedirectsBack";
+import Button from "../redirects/Button";
 
 export default function Transactions() {
   const [transactions, setTransactions] = useState([]);
@@ -49,7 +49,7 @@ export default function Transactions() {
   return (
     <div className=" ">
         <h1 className="">Mis billeteras</h1> 
-        <RedirectsBack href={'/index'} text={'Inicio'}></RedirectsBack>
+        <Button href={'/index'} text={'Inicio'}></Button>
         <div className="w-full">
 
         <div className="flex flex-wrap justify-around gap-20">

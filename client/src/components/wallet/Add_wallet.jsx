@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import RedirectsBack from '../redirects/RedirectsBack';
+import Button from '../redirects/Button';
 
 export default function Add_wallet() {
   const [wallet_name,setWallet_name] = useState('')
@@ -49,7 +49,7 @@ export default function Add_wallet() {
     </form>
 
     
-    <RedirectsBack href={'/index'} text={'Volver'}></RedirectsBack>
+    <Button href={'/index'} text={'Volver'}></Button>
     </div>
   )
 }

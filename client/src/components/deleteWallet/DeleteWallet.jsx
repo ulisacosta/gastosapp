@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 /* Import para botón de volver */
-import RedirectsBack from "../redirects/RedirectsBack";
+import Button from "../redirects/Button";
 /* Import request */
 import fetchWallet from "../../service/wallet";
 /* Import loader */
@@ -72,20 +72,20 @@ export default function DeleteWallet() {
           <button>Eliminar</button>
         </form>
 
-        <RedirectsBack
+        <Button
           href={"/index"}
           text={"Inicio"}
-        ></RedirectsBack>
+        ></Button>
       </>
     );
   } else {
     return (
       <>
         <h1>No se encontraron billeteras</h1>
-        <RedirectsBack
+        <Button
           href={"/index"}
           text={"Inicio"}
-        ></RedirectsBack>
+        ></Button>
       </>
     );
   }

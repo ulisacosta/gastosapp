@@ -1,50 +1,98 @@
-import React, { useState } from 'react'
-import RedirectsBack from '../redirects/RedirectsBack';
+import React, { useState,useEffect } from "react";
+import Button from "../redirects/Button";
+import fetchWallet from "../../service/wallet";
+import FormAddTransaction from "../formAddTransaction/FormAddTransaction";
+
+
+
 export default function AddExpense() {
-    const [amount,setAmount] = useState('');
-    const [id_wallet,setWallet] = useState('');
-    const [description,setDescription] = useState('');
-    
-    const handleSubmitAddExpense = async (e) =>{
-        e.preventDefault()
+  const [amount, setAmount] = useState("");
+  const [id_wallet, setIdWallet] = useState("");
+  const [description, setDescription] = useState("");
+  const [wallet, setWallet] = useState([]);
 
-        const inputData = {id_wallet,amount,description}
+  // Función para cargar las billeteras y actualizar los estados
+  const loadWallets = () => {
+    fetchWallet
+      .fetchDataWallet()
+      .then((data) => {
+        setWallet(data.resultQueryWallet);
+        // Configurar el primer valor del select
+        if (data.resultQueryWallet.length > 0) {
+          setIdWallet(data.resultQueryWallet[0].id_wallet);
+        } else {
+          setIdWallet("");
+        }
+      })
+      .catch((error) => {
+        console.error("Error al obtener las transacciones:", error);
+      });
+  };
 
-        try{
-            const response = await fetch('http://localhost:3000/add_transaction/2',{
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify(inputData),
-                credentials:'include'
-            })
-            const data = await response.json;
-            if(response.ok){
-             
-                setWallet('')
-                setAmount('')
-                setDescription('')
-            }
-            else{
-                console.log('No se pudo completar el envío del formulario')
-            }
-        }
-        catch(error){
-            console.error('Error al enviar formulario',error)
-        }
+  useEffect(() => {
+    loadWallets();
+  }, []);
+
+  const handleSubmitAddExpense = async (e) => {
+    e.preventDefault();
+
+    const inputData = { id_wallet, amount, description };
+
+    try {
+      const response = await fetch("http://localhost:3000/add_transaction/2", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputData),
+        credentials: "include",
+      });
+      const data = await response.json;
+      if (response.ok) {
+        loadWallets();
+
+        setAmount("");
+        setDescription("");
+      } else {
+        console.log("No se pudo completar el envío del formulario");
+      }
+    } catch (error) {
+      console.error("Error al enviar formulario", error);
     }
-  
+  };
+  if (wallet.length > 0) {
     return (
-    <>
-    <h1>Agregar gasto</h1>
-    <form onSubmit={handleSubmitAddExpense}>
-    <input type='number' autoComplete='off' name='id_wallet' placeholder='Agregar billetera' value={id_wallet} onChange={(e)=>setWallet(e.target.value)}></input>
-            <input type='number' autoComplete='off' name='amount' placeholder='Agregar monto' value={amount} onChange={(e)=>setAmount(e.target.value)}></input>
-            <input type='text' autoComplete='off' name='description' placeholder='Agregar descripción' value={description} onChange={(e)=>setDescription(e.target.value)}></input>
-            <button>Agregar</button>
-    </form>
-    <RedirectsBack href={'/index'} text={'Volver'}></RedirectsBack>
-    </>
-  )
+      <>
+        <FormAddTransaction
+          transaction={"GASTO"}
+          handleSubmitAddIncome={handleSubmitAddExpense}
+          wallet={wallet}
+          amount={amount}
+          setAmount={setAmount}
+          description={description}
+          setDescription={setDescription}
+          idWallet={id_wallet}
+          setIdWallet={setIdWallet}
+        />
+      </>
+    );
+  } else {
+    return (
+      <>
+        <div className='flex flex-col gap-8'>
+          <h1>Cargar billeteras antes de cargar tus gastos</h1>
+          <div className=' flex  gap-4 justify-center'>
+            <Button
+              href={"/add_wallet"}
+              text={"Cargar billetera"}
+            ></Button>
+            <Button
+              href={"/index"}
+              text={"Inicio"}
+            ></Button>
+          </div>
+        </div>
+      </>
+    );
+  }
 }
