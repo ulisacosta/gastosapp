@@ -6,6 +6,13 @@ module.exports.add_wallet = (req, res) => {
   const { wallet_name } = req.body;
   const date = new Date(Date.now());
   const sqlAddWallet = "INSERT INTO wallet VALUES (NULL,?,?)";
+  if (!wallet_name) {
+    return res.status(400).json({ errorNewWallet: "Se debe completar los campos" });
+  }
+  const validDescription = /^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ0-9 ,.]*$/;
+  if (!wallet_name || !validDescription.test(wallet_name)) {
+    return res.status(400).json({ errorNewWallet: "La billetera contiene caracteres no válidos." });
+  }
 
   db.query(sqlAddWallet, [wallet_name, date], (errAddWallet, result) => {
     if (errAddWallet) {

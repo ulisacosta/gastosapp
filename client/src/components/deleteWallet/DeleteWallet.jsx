@@ -5,6 +5,8 @@ import Button from "../redirects/Button";
 import fetchWallet from "../../service/wallet";
 /* Import loader */
 import "ldrs/bouncy";
+import MenuItem from "@mui/material/MenuItem";
+import TextField from "@mui/material/TextField";
 
 export default function DeleteWallet() {
   /* Estado para el id que se va a eliminar */
@@ -56,27 +58,41 @@ export default function DeleteWallet() {
     );
   } else if (wallet.length > 0) {
     return (
-      <>
-        <h1>Eliminar billetera</h1>
-        <form onSubmit={handleSubmitDeleteWallet}>
-          <select onChange={(e) => setIdWallet(e.target.value)}>
+      <div className='flex flex-col gap-3'>
+        <h1 className='m-6 text-4xl'>Eliminar billetera</h1>
+        <form
+          onSubmit={handleSubmitDeleteWallet}
+          className='flex flex-col gap-5'
+        >
+          <TextField
+            size='small'
+            id='outlined-select-currency'
+            select
+            onChange={(e) => setIdWallet(e.target.value)}
+            label='Seleccionar billetera'
+            defaultValue={wallet[0].id_wallet}
+          >
             {wallet.map((walletName, index) => (
-              <option
+              <MenuItem
                 key={index}
                 value={walletName.id_wallet}
               >
                 {walletName.wallet_name.toUpperCase()}
-              </option>
+              </MenuItem>
             ))}
-          </select>
-          <button>Eliminar</button>
+          </TextField>
+          <div className='flex justify-center '>
+            <button className=' flex justify-center items-center px-6 py-3 w-1/4 rounded-md border border-black bg-white text-neutarl-700 text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200'>
+              Eliminar
+            </button>
+          </div>
         </form>
 
         <Button
           href={"/index"}
           text={"Inicio"}
         ></Button>
-      </>
+      </div>
     );
   } else {
     return (

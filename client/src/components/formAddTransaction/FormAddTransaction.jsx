@@ -18,7 +18,7 @@ export default function FormAddTransaction(props) {
     setIdWallet,
   } = props;
   return (
-    <div className="flex flex-col gap-3">
+    <div className='flex flex-col gap-3'>
       <h1 className='m-6 text-4xl'>AGREGAR {transaction}</h1>
 
       <form
@@ -66,13 +66,11 @@ export default function FormAddTransaction(props) {
           onChange={(e) => setDescription(e.target.value)}
         />
 
-<div className="flex justify-center ">
-
-        <button className=' flex justify-center items-center px-6 py-3 w-1/4 rounded-md border border-black bg-white text-neutarl-700 text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200'>
-          Agregar
-        </button>
-</div>
-  
+        <div className='flex justify-center '>
+          <button className=' flex justify-center items-center px-6 py-3 w-1/4 rounded-md border border-black bg-white text-neutarl-700 text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200'>
+            Agregar
+          </button>
+        </div>
       </form>
 
       <Button

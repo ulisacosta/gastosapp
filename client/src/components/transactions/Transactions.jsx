@@ -18,7 +18,7 @@ export default function Transactions() {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-  
+     
         const walletMap = {};
       
         data.resultQueryTransaction
@@ -57,9 +57,10 @@ export default function Transactions() {
         {Object.keys(transactions).length > 0 ? (
             Object.entries(transactions).map(([walletName, walletTransactions], index) => (
               
-                <div key={index} className=" " >
+                <div key={index} className="">
                     <h2 className="font-extrabold border border-black">{walletName.toUpperCase()}</h2>
-                    <table className="border-black">
+                    <div className="overflow-auto border-black max-h-96">
+                    <table className="border-black w-full">
                         <thead>
                             <tr>
                                 <th>Description</th>
@@ -89,6 +90,7 @@ export default function Transactions() {
                           
                         </tbody>
                     </table>
+                </div>
                 </div>
             )
             )

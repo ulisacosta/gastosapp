@@ -9,6 +9,21 @@ module.exports.add_transaction = (req, res) => {
   const { id_transaction_type } = req.params;
   const date = new Date(Date.now());
 
+  /* VALIDACIONES */
+  /* VALIDACIÓN PARA QUE NO HAYA CAMPOS VACÍOS */
+  if (!id_wallet || !amount || !description) {
+    return res.status(400).json({ errorFields: "Se debe completar los campos" });
+  }
+  /* VALIDACIÓN PARA QUE NO SE INGRESEN NÚMEROS NEGATIVOS */
+  if (!amount || isNaN(amount) || Number(amount) < 0) {
+    return res.status(400).json({ errorFields: "El monto debe ser un número positivo." });
+  }
+/* VALIDACIÓN PARA QUE NO HAYA DESCRIPCIÓN CON CARACTERES NO VALIDOS */
+const validDescription = /^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ0-9 ,.]*$/;
+if (!description || !validDescription.test(description)) {
+  return res.status(400).json({ errorFields: "La descripción contiene caracteres no válidos." });
+}
+
   const sqlTransaction =
     "INSERT INTO transaction VALUES (NULL,?,?,CASE WHEN ? = 2 THEN -? ELSE ? END,?,?)";
   const verifyTransaction =
