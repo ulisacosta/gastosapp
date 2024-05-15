@@ -16,6 +16,7 @@ export default function AddTransaction(props) {
     fetchWallet
       .fetchDataWallet()
       .then((data) => {
+        
         setWallet(data.resultQueryWallet);
         // Configurar el primer valor del select
         if (data.resultQueryWallet.length > 0) {
@@ -28,12 +29,14 @@ export default function AddTransaction(props) {
         console.error("Error al obtener las transacciones:", error);
       });
   };
+ 
 
-  useEffect(() => {
-    loadWallets();
-  }, []);
+    useEffect(() => {
+      loadWallets();
+    }, []);
 
-  const handleSubmitAddIncome = async (e) => {
+
+  const handleSubmitAdd = async (e) => {
     e.preventDefault();
     const inputData = { id_wallet, amount, description };
     try {
@@ -71,8 +74,8 @@ export default function AddTransaction(props) {
       <>
       <Toaster richColors  />
         <FormAddTransaction
-          transaction={"INGRESO"}
-          handleSubmitAddIncome={handleSubmitAddIncome}
+          transaction={props.header}
+          handleSubmitAdd={handleSubmitAdd}
           wallet={wallet}
           amount={amount}
           setAmount={setAmount}

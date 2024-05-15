@@ -3,7 +3,7 @@ import AddTransaction from '../addTransaction/AddTransaction'
 export default function AddIncome() {
   return (
     <div>
-      <AddTransaction id_transaction='1' ></AddTransaction>
+      <AddTransaction id_transaction='1' header='INGRESOS'></AddTransaction>
     </div>
   )
 }

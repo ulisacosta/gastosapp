@@ -8,7 +8,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 export default function FormAddTransaction(props) {
   const {
     transaction,
-    handleSubmitAddIncome,
+    handleSubmitAdd,
     wallet,
     amount,
     setAmount,
@@ -22,7 +22,7 @@ export default function FormAddTransaction(props) {
       <h1 className='m-6 text-4xl'>AGREGAR {transaction}</h1>
 
       <form
-        onSubmit={handleSubmitAddIncome}
+        onSubmit={handleSubmitAdd}
         className='flex flex-col gap-5'
       >
         <TextField

@@ -4,7 +4,7 @@ const { finishDB } = require("../../util/finishDB")
 
 module.exports.query_wallet = (req,res) => {
     const db = dbConnect()
-    const sqlQueryWallet = 'SELECT wallet.* FROM wallet'
+    const sqlQueryWallet = 'SELECT wallet.* FROM wallet '
     db.query(sqlQueryWallet,(errQueryWallet,resultQueryWallet)=>{
         if(errQueryWallet){
             console.error(errQueryWallet)
@@ -18,3 +18,4 @@ module.exports.query_wallet = (req,res) => {
         }
     })
 }
+

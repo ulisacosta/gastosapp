@@ -1,8 +1,8 @@
-const url = 'http://localhost:3000/'
+const url = 'http://localhost:3000'
 
 const fetchDataWallet = async () => {
     try{
-      const response = await fetch (`${url}query_wallet`,{
+      const response = await fetch (`${url}/query_wallet`,{
         method:'GET',
         headers:{'Content-Type':'application/json'}
       }
@@ -19,9 +19,27 @@ const fetchDataWallet = async () => {
     }
     }
 
+    const fetchDataWalletVerify = async () => {
+      try{
+
+        const response = await fetch(`${url}/verify_transaction`,{
+          method:'GET',
+          headers:{'Content-Type':'application/json'}
+        })
+        if(!response.ok){
+          throw new Error(`HTTP error stats: ${response.status}`)
+        }
+        const data = await response.json()
+        return data
+      }
+      catch(error){
+        console.error("Error al obtener las transacciones",error)
+      }
+    }
+
     const fetchDeleteWallet = async (inputData,loadWallets) => {
         try {
-            const response = await fetch("http://localhost:3000/delete_wallet", {
+            const response = await fetch(`${url}/delete_wallet`, {
               method: "DELETE",
               headers: {
                 "Content-Type": "application/json",
@@ -43,4 +61,4 @@ const fetchDataWallet = async () => {
 
 
 
-    export default {fetchDataWallet,fetchDeleteWallet}
+    export default {fetchDataWallet,fetchDeleteWallet,fetchDataWalletVerify}
