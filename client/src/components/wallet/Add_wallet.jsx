@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Button from "../redirects/Button";
 
 import TextField from "@mui/material/TextField";
-import { Toaster, toast } from 'sonner'
+import { Toaster, toast } from "sonner";
 
 export default function Add_wallet() {
   const [wallet_name, setWallet_name] = useState("");
-  
+
   const handleSubmitAddWallet = async (e) => {
     e.preventDefault();
     const inputData = { wallet_name };
@@ -21,13 +21,11 @@ export default function Add_wallet() {
         credentials: "include",
       });
       const data = await response.json();
-      if(data.errorNewWallet){
-        toast.warning(data.errorNewWallet)
-      }
-      else
-      if (response.ok) {
+      if (data.errorNewWallet) {
+        toast.warning(data.errorNewWallet);
+      } else if (response.ok) {
         console.log(data.message);
-        toast.success('Billetera creada')
+        toast.success("Billetera creada");
         setWallet_name("");
       } else {
         console.log("No se pudo completar la carga");
@@ -38,14 +36,17 @@ export default function Add_wallet() {
   };
 
   return (
-    
-    <div  className='flex flex-col gap-3'>
-    <Toaster richColors  />
-      <div >
+    <div className='flex flex-col gap-3'>
+      <Toaster richColors />
+      <div>
         <h1 className='m-6 text-4xl'>Crear nueva billetera</h1>
       </div>
-      <form onSubmit={handleSubmitAddWallet} className="flex flex-col gap-5">
+      <form
+        onSubmit={handleSubmitAddWallet}
+        className='flex flex-col gap-5'
+      >
         <TextField
+          autoFocus
           id='standard-basic'
           label='Agregar billetera'
           variant='standard'

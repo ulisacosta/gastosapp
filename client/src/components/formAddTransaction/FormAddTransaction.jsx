@@ -44,6 +44,7 @@ export default function FormAddTransaction(props) {
         </TextField>
 
         <Input
+          autoFocus
           type='number'
           autoComplete='off'
           name='amount'

@@ -70,7 +70,7 @@ export default function DeleteWallet() {
             select
             onChange={(e) => setIdWallet(e.target.value)}
             label='Seleccionar billetera'
-            defaultValue={wallet[0].id_wallet}
+            value={id_wallet}
           >
             {wallet.map((walletName, index) => (
               <MenuItem
@@ -97,7 +97,7 @@ export default function DeleteWallet() {
   } else {
     return (
       <>
-        <h1>No se encontraron billeteras</h1>
+        <h1 className="m-6 text-4xl">No se encontraron billeteras</h1>
         <Button
           href={"/index"}
           text={"Inicio"}

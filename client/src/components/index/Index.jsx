@@ -1,10 +1,15 @@
 import React from 'react'
 import RedirectsIndex from '../redirects/RedirectsIndex'
+import { GiPiggyBank } from "react-icons/gi";
+
 
 export default function Index() {
   return (
     <div className='flex  flex-col gap-9'>
-      <h1 className=''>Mis gastos</h1>
+ 
+
+      <div className=' flex justify-center'>   <GiPiggyBank size={80} />
+ </div>
       <div className=' flex gap-6'>
       <RedirectsIndex text={"Ver cuentas"} href={"/transactions"}></RedirectsIndex>
       <RedirectsIndex text={"Agregar ingreso"} href={"/add_transaction/1"}></RedirectsIndex>

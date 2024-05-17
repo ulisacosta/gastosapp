@@ -3,6 +3,8 @@ import Button from "../redirects/Button";
 
 import fetchWallet from "../../service/wallet";
 import FormAddTransaction from "../formAddTransaction/FormAddTransaction";
+/* Import loader */
+import "ldrs/bouncy";
 import { Toaster, toast } from 'sonner'
 
 export default function AddTransaction(props) {
@@ -10,6 +12,8 @@ export default function AddTransaction(props) {
   const [description, setDescription] = useState("");
   const [id_wallet, setIdWallet] = useState("");
   const [wallet, setWallet] = useState([]);
+  /* Estado para loader */
+  const [loading, setLoading] = useState(true);
 
   // Función para cargar las billeteras y actualizar los estados
   const loadWallets = () => {
@@ -24,6 +28,7 @@ export default function AddTransaction(props) {
         } else {
           setIdWallet("");
         }
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error al obtener las transacciones:", error);
@@ -68,7 +73,15 @@ export default function AddTransaction(props) {
   };
 
   
-
+  if (loading) {
+    return (
+      <l-bouncy
+        size='55'
+        speed='1.8'
+        color='#0033ff'
+      ></l-bouncy>
+    );
+  } else 
   if (wallet.length > 0) {
     return (
       <>
@@ -90,7 +103,7 @@ export default function AddTransaction(props) {
     return (
       <>
         <div className='flex flex-col gap-8'>
-          <h1>Cargar billeteras antes de cargar ingresos</h1>
+          <h1 className="m-6 text-4xl">Cargar billeteras antes de cargar {props.text}</h1>
           <div className=' flex  gap-4 justify-center'>
             <Button
               href={"/add_wallet"}

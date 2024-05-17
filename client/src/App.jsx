@@ -7,13 +7,18 @@ import AddIncome from "./components/addIncome/AddIncome";
 import './App.css'
 import AddExpense from "./components/addExpense/AddExpense";
 import DeleteWallet from "./components/deleteWallet/DeleteWallet";
+import NavBar from "./components/navbar/NavBar";
 
 function App() {
 
 
   return (
     <>
-    
+  
+  <div className="fixed top-0 left-0 w-full z-50 ">
+  <NavBar></NavBar>
+  </div>
+
       <Routes>
      <Route path="/" element={<Login/>}/> 
      <Route path="/login" element={<Login/>}/> 
