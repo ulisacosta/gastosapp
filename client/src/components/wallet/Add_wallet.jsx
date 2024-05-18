@@ -67,7 +67,7 @@ export default function Add_wallet() {
 
       <Button
         href={"/index"}
-        text={"Volver"}
+        text={"Inicio"}
       ></Button>
     </div>
   );

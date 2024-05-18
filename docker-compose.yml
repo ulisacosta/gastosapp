@@ -12,14 +12,14 @@ services:
     ports:
       - 3306:3306
     networks:
-      - galco
+      - gastosApp
 
   adminer:
     image: adminer
     ports:
       - 8080:8080
     networks:
-      - galco
+      - gastosApp
 
   app:
     restart: always
@@ -31,8 +31,8 @@ services:
     ports:
       - 3000:3000
     networks:
-      - galco
+      - gastosApp
 
 networks:
-  galco:
+  gastosApp:
     driver: bridge    

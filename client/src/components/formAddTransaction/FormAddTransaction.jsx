@@ -63,7 +63,7 @@ export default function FormAddTransaction(props) {
           autoComplete='off'
           name='description'
           placeholder='Agregar descripción'
-          value={description}
+          value={description.charAt(0).toUpperCase() + description.slice(1)}
           onChange={(e) => setDescription(e.target.value)}
         />
 
@@ -76,7 +76,7 @@ export default function FormAddTransaction(props) {
 
       <Button
         href={"/index"}
-        text={"Volver"}
+        text={"Inicio"}
       ></Button>
     </div>
   );

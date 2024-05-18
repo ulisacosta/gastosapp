@@ -41,10 +41,7 @@ export default function Transactions() {
     <div className=''>
       <div className='m-4 flex flex-col gap-3'>
         <h1 className='m-6 text-4xl'>Mis billeteras</h1>
-        <Button
-          href={"/index"}
-          text={"Inicio"}
-        ></Button>
+  
       </div>
       <div className='w-full'>
         <div className='flex flex-wrap justify-around gap-20'>
@@ -68,20 +65,20 @@ export default function Transactions() {
                     <table className='border-black w-full'>
                       <thead>
                         <tr>
-                          <th>Description</th>
-                          <th>Date</th>
-                          <th>Amount</th>
+                          <th>Fecha</th>
+                          <th>Descripción</th>
+                          <th>Monto</th>
                         </tr>
                       </thead>
                       <tbody>
                         {walletTransactions.map((transaction, idx) => (
                           <tr key={idx}>
-                            <td>{transaction.description}</td>
                             <td>
                               {new Date(
                                 transaction.created_at
                               ).toLocaleDateString()}
                             </td>
+                            <td className="font-semibold">{transaction.description}</td>
                             <td>${transaction.amount}</td>
                           </tr>
                         ))}
