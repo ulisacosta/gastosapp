@@ -30,6 +30,7 @@ export default function DeleteWallet() {
         }
         setLoading(false);
       })
+
       .catch((error) => {
         console.error("Error al obtener las transacciones:", error);
       });

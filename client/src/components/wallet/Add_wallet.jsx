@@ -53,7 +53,7 @@ export default function Add_wallet() {
           type='text'
           autoComplete='off'
           name='wallet_name'
-          placeholder='Agregar billetera'
+          placeholder='Nueva billetera'
           value={wallet_name.charAt(0).toUpperCase() + wallet_name.slice(1)}
           onChange={(e) => setWallet_name(e.target.value)}
         />

@@ -7,7 +7,7 @@ const cors = require("cors");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-
+const session = require('express-session') 
 
 const port = process.env.PORT || 3001;
 
@@ -23,15 +23,19 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin:"http://localhost:5173",
     methods: ["GET", "POST","PUT","DELETE"],
     credentials: true,
   })
 );
 
+app.use(session({
+  secret:'sessionSecret',
+  resave: false,
+  saveUninitialized:true
+}))
+
 app.use(cookieParser());
-
-
 
 app.use(function (req, res, next) {
   if (!req.user)

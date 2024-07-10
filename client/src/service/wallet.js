@@ -1,30 +1,37 @@
 const url = 'http://localhost:3000'
 
+/* LOAD ALL WALLETS */
 const fetchDataWallet = async () => {
     try{
       const response = await fetch (`${url}/query_wallet`,{
         method:'GET',
-        headers:{'Content-Type':'application/json'}
-      }
+        headers:{'Content-Type':'application/json'},
+        credentials: "include",
+      },
+      
     )
 
   if(!response.ok){
     throw new Error(`HTTP error stats: ${response.status}`)
   }
   const data = await response.json();
+
   return data
         
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Error al obtener las transacciones:", error);
     }
     }
 
+    /* VERIFY IF THE WALLET IS NOT EMPTY */
     const fetchDataWalletVerify = async () => {
       try{
 
         const response = await fetch(`${url}/verify_transaction`,{
           method:'GET',
-          headers:{'Content-Type':'application/json'}
+          headers:{'Content-Type':'application/json'},
+          credentials: "include"
         })
         if(!response.ok){
           throw new Error(`HTTP error stats: ${response.status}`)
@@ -37,6 +44,8 @@ const fetchDataWallet = async () => {
       }
     }
 
+
+    /* DELETE WALLET */
     const fetchDeleteWallet = async (inputData,loadWallets) => {
         try {
             const response = await fetch(`${url}/delete_wallet`, {

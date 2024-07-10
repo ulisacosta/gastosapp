@@ -9,25 +9,34 @@ const { add_transaction } = require('../controllers/transaction/add_transaction'
 const { query_transaction } = require('../controllers/transaction/query_transaction');
 const { query_wallet } = require('../controllers/wallet/query_wallet');
 const { verify_transaction } = require('../controllers/transaction/verify_transaction');
+const { isAuthenticated } = require('../middlewares/isAuthentic');
+
 
 router.post('/login',login)
-
-
-router.post('/add_wallet',add_wallet)
-
-router.delete('/delete_wallet',delete_wallet)
-
-router.post('/login',login)
-
 router.post('/register',register)
 
-router.post('/add_transaction/:id_transaction_type',add_transaction)
 
+/* AGREGAR BILLETERA */
+router.post('/add_wallet',isAuthenticated,add_wallet)
 
-router.get('/query_transaction',query_transaction)
+/* BORRAR BILLETERA */
+router.delete('/delete_wallet',isAuthenticated,delete_wallet)
 
-router.get('/query_wallet',query_wallet)
-router.get('/verify_transaction',verify_transaction)
+/* AGREGAR NUEVO INGRESO O GASTO */
+/* ADD NEW INCOME OR EXPENSE */
+router.post('/add_transaction/:id_transaction_type',isAuthenticated,add_transaction)
+
+/* CONSULTA PARA MOSTRAR TODOS LOS GASTOS O INGRESOS */
+/* QUERY FOR SHOW ALL EXPENSES OR INCOMES */
+router.get('/query_transaction',isAuthenticated,query_transaction)
+
+/* MUESTRA TODAS LAS BILLETERAS */
+/* QUERY FOR SHOW ALL WALLETS */
+router.get('/query_wallet',isAuthenticated,query_wallet)
+
+/* CONSULTA PARA SABER SI TIENE PLATA LA BILLETERA Y NO ESTA VACÍA */
+/* QUERY TO KNOW IF THE WALLET IS NOT EMPTY */
+router.get('/verify_transaction',isAuthenticated,verify_transaction)
 
 
 module.exports = router;
