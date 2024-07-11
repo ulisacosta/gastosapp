@@ -29,7 +29,7 @@ module.exports.isAuthenticated = async (req, res, next) => {
             // Redirigir si el token está a punto de expirar en menos de 1 minuto
             console.log("El token expiró");
             finishDB(db);
-           return res.redirect('/login');
+           return res.status(401).json({ error: "El token expiró" });
           }
           finishDB(db);
           return next();
@@ -43,7 +43,7 @@ module.exports.isAuthenticated = async (req, res, next) => {
   } else {
     console.log("No hay token en las cookies");
     finishDB(db);
-    return res.redirect('/login')
+    return res.status(500).json({ error: "Error interno en el servidor" });
   
   }
 };

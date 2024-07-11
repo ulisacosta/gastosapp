@@ -11,8 +11,9 @@ const fetchLogin = async (formData) => {
             credentials: "include",
         });
         
+   
         const data = await response.json();
-      
+    
         return { ok: response.ok, ...data };
     } catch (error) {
         /* console.error('Error en la solicitud de inicio de sesión', error); */
