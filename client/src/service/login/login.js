@@ -11,12 +11,12 @@ const fetchLogin = async (formData) => {
             credentials: "include",
         });
         
-   
+
         const data = await response.json();
     
         return { ok: response.ok, ...data };
     } catch (error) {
-        /* console.error('Error en la solicitud de inicio de sesión', error); */
+        console.error('Error en la solicitud de inicio de sesión', error);
         return { ok: false, error: 'Error interno del servidor. Por favor, inténtalo más tarde.' };
       }
 }

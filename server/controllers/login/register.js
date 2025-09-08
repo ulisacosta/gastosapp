@@ -1,7 +1,7 @@
-const dbConnect = require("../config/mysql");
+const dbConnect = require("../../config/mysql");
 const bcryptjs = require("bcryptjs");
 
-const {finishDB} = require('../util/finishDB');
+const {finishDB} = require('../../util/finishDB');
 
 module.exports.register = async (req,res) => {
   const db =  dbConnect();
@@ -27,7 +27,7 @@ module.exports.register = async (req,res) => {
 
           db.query(
             sqlInsertUser,
-            {email,user,user_name, password: passHash,id_role:2},
+            {email,user,user_name, password:passHash,id_role:2},
             (errRegister, result) => {
               if (errRegister) {
                 console.error('Error al crear nuevo usuario',errRegister);

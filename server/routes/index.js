@@ -3,17 +3,18 @@ const router = express.Router();
 
 const {add_wallet} = require('../controllers/wallet/add_wallet')
 const {delete_wallet} = require('../controllers/wallet/delete_wallet');
-const { login } = require('../controllers/login');
-const { register } = require('../controllers/register');
+const { login } = require('../controllers/login/login');
+const { register } = require('../controllers/login/register');
+const { logout } = require('../controllers/login/logout');
 const { add_transaction } = require('../controllers/transaction/add_transaction');
 const { query_transaction } = require('../controllers/transaction/query_transaction');
 const { query_wallet } = require('../controllers/wallet/query_wallet');
 const { verify_transaction } = require('../controllers/transaction/verify_transaction');
 const { isAuthenticated } = require('../middlewares/isAuthentic');
 
-
 router.post('/login',login)
 router.post('/register',register)
+router.get('/logout',logout)
 
 
 /* AGREGAR BILLETERA */

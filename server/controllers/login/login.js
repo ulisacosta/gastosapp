@@ -1,7 +1,7 @@
-const dbConnect = require("../config/mysql");
+const dbConnect = require("../../config/mysql");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { finishDB } = require("../util/finishDB");
+const { finishDB } = require("../../util/finishDB");
 
 module.exports.login = (req, res) => {
   const db = dbConnect();
@@ -16,15 +16,17 @@ module.exports.login = (req, res) => {
     } else {
         /* Consulta para verificar inputs */
       const sqlLogin =
-        "SELECT id_user, user, password, email FROM users WHERE users.user = ? OR users.email = ?";
+        "SELECT users.* FROM users WHERE users.user = ? || users.email = ?";
 
       db.query(sqlLogin, [user, user], async (errLogin, resultLogin) => {
+        
+      
         if (errLogin) {
           /* console.log(errLogin); */
           finishDB(db);
           return res.status(500).json({ error: "Error interno del servidor" });
           /* VERIFICA SI LA CONTRASEÑA O EL USUARIO ESTÁN CORRECTOS */
-        } else if (resultLogin.length === 0 ||(await bcryptjs.compare(password, resultLogin[0].password))) {
+        } else if (resultLogin.length == 0 || ! (await bcryptjs.compare(password, resultLogin[0].password))) {
           finishDB(db);
           return res.status(401).json({ error: "Usuario y/o contraseña incorrecto" });
         } else {
@@ -43,8 +45,6 @@ module.exports.login = (req, res) => {
             )
           };
           res.cookie("jwt", token, cookiesOptions);
-         
-          
           finishDB(db);
           return res.status(200).json({ message: "inicio de sesión exitoso",token });
         }

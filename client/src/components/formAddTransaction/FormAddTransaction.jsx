@@ -4,80 +4,100 @@ import Input from "@mui/material/Input";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
+import { FaMoneyBillWave, FaEdit, FaWallet, FaCheckCircle, FaArrowLeft } from 'react-icons/fa';
 
 export default function FormAddTransaction(props) {
-  const {
-    transaction,
-    handleSubmitAdd,
-    wallet,
-    amount,
-    setAmount,
-    description,
-    setDescription,
-    idWallet,
-    setIdWallet,
-  } = props;
-  return (
-    <div className='flex flex-col gap-3'>
-      <h1 className='m-6 text-4xl'>AGREGAR {transaction}</h1>
+  const {
+    transaction,
+    handleSubmitAdd,
+    wallet,
+    amount,
+    setAmount,
+    description,
+    setDescription,
+    idWallet,
+    setIdWallet,
+  } = props;
 
-      <form
-        onSubmit={handleSubmitAdd}
-        className='flex flex-col gap-5'
-      >
-        <TextField
-          size='small'
-          id='outlined-select-currency'
-          select
-          onChange={(e) => setIdWallet(e.target.value)}
-          label='Seleccionar billetera'
-          defaultValue={wallet[0].id_wallet}
-        >
-          {wallet.map((walletName, index) => (
-            <MenuItem
-              key={index}
-              value={walletName.id_wallet}
-            >
-              {walletName.wallet_name.toUpperCase()}
-            </MenuItem>
-          ))}
-        </TextField>
+  return (
+    <div className='bg-white p-8 rounded-xl shadow-2xl w-full max-w-md mx-auto '>
+      <h1 className='text-2xl md:text-3xl font-extrabold text-gray-800 text-center mb-2'>
+        AGREGAR {transaction.toUpperCase()}
+      </h1>
 
-        <Input
-          autoFocus
-          type='number'
-          autoComplete='off'
-          name='amount'
-          placeholder='Agregar monto'
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          id='standard-adornment-amount'
-          startAdornment={<InputAdornment position='start'>$</InputAdornment>}
-        />
+      <form onSubmit={handleSubmitAdd} className='flex flex-col gap-'>
+        {/* Campo para seleccionar billetera */}
+        <TextField
+          size='small'
+          id='wallet-select'
+          select
+          onChange={(e) => setIdWallet(e.target.value)}
+          label='Seleccionar billetera'
+          defaultValue={wallet[0].id_wallet}
+          fullWidth
+          InputProps={{
+            startAdornment: (
+              
+                <FaWallet className="text-gray-500" />
+        
+            ),
+          }}
+        >
+          {wallet.map((walletName, index) => (
+            <MenuItem key={index} value={walletName.id_wallet}>
+              {walletName.wallet_name.toUpperCase()}
+            </MenuItem>
+          ))}
+        </TextField>
 
-        <TextField
-          id='standard-basic'
-          label='Descripción'
-          variant='standard'
-          type='text'
-          autoComplete='off'
-          name='description'
-          placeholder='Agregar descripción'
-          value={description.charAt(0).toUpperCase() + description.slice(1)}
-          onChange={(e) => setDescription(e.target.value)}
-        />
+        {/* Campo para el monto con Input */}
+        <div className="">
+          <Input
+            autoFocus
+            type='number'
+            autoComplete='off'
+            name='amount'
+            placeholder='Agregar monto'
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            id='amount-input'
+            fullWidth
+        
+            className="border-b-2 border-gray-200 focus:border-blue-500"
+          />
+        </div>
+        
+        {/* Campo para la descripción con TextField */}
+        <TextField
+          id='description-input'
+          label='Descripción'
+          variant='standard'
+          type='text'
+          autoComplete='off'
+          name='description'
+          placeholder='Agregar descripción'
+          value={description.charAt(0).toUpperCase() + description.slice(1)}
+          onChange={(e) => setDescription(e.target.value)}
+          fullWidth
+      
+        />
 
-        <div className='flex justify-center '>
-          <button className=' flex justify-center items-center px-6 py-3 w-1/4 rounded-md border border-black bg-white text-neutarl-700 text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200'>
-            Agregar
-          </button>
-        </div>
-      </form>
-
-      <Button
-        href={"/index"}
-        text={"Inicio"}
-      ></Button>
-    </div>
-  );
+        <div className='flex justify-center mt-6'>
+          <button
+            type="submit"
+            className='flex items-center justify-center  rounded-xl bg-blue-600 text-white font-semibold text-lg shadow-md hover:bg-blue-700 transition-colors duration-200'
+          >
+            <FaCheckCircle className="" />
+            AGREGAR
+          </button>
+        </div>
+      </form>
+    
+  {/*     <div className="flex justify-center">
+        <Button href={"/index"} text={"INICIO"}>
+          <FaArrowLeft className="mr-2" />
+        </Button>
+      </div> */}
+    </div>
+  );
 }
